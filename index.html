@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo con botones</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #contador {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    Hola david, pruebame en el refri
+  <h1>Hola David, pruébame en el refri</h1>
+
+  <!-- Botones -->
+  <button onclick="incrementar()">Incrementar contador</button>
+  <button onclick="mostrarMensaje()">Mostrar mensaje</button>
+
+  <!-- Contador -->
+  <div id="contador">Contador: 0</div>
+
+  <script>
+    let valor = 0;
+
+    function incrementar() {
+      valor++;
+      document.getElementById("contador").textContent = "Contador: " + valor;
+    }
+
+    function mostrarMensaje() {
+      alert("Este es un mensaje de prueba ");
+    }
+  </script>
 </body>
 </html>
