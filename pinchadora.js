@@ -67,6 +67,7 @@ const defectoSelect = document.getElementById("defecto");
       localStorage.setItem("defectoData", JSON.stringify(data_list));
 
       alert("Datos guardados:\n" + JSON.stringify(data, null, 2));
+      window.location.href = 'registros.html';
       form.reset();
       otroLabel.style.display = "none";
       otroDefecto.style.display = "none";

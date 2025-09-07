@@ -65,7 +65,9 @@ const defectoSelect = document.getElementById("defecto");
       // Guardar como JSON en localStorage
       localStorage.setItem("defectoData", JSON.stringify(data_list));
 
-      alert("Datos guardados:\n" + JSON.stringify(data, null, 2));
+      alert("Datos guardados exitosamente");
+      window.location.href = 'registros.html';
+
       form.reset();
       otroLabel.style.display = "none";
       otroDefecto.style.display = "none";
