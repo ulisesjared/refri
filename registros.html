@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tabla de Defectos (agrupados)</title>
+    <link rel="stylesheet" href="style.css" / >
+  <style>
+    body{font-family:Arial, sans-serif; margin:0; padding:20px; background:#f7f7f7; color:#222;}
+    .wrap{max-width:1000px; margin:0 auto; background:#fff; padding:16px; border-radius:10px; box-shadow:0 6px 16px rgba(0,0,0,.06);}
+    h1{margin:0 0 12px; font-size:20px;}
+    table{width:100%; border-collapse:collapse;}
+    th,td{padding:10px 12px; border-bottom:1px solid #eee; text-align:left;}
+    thead th{background:#f0f3ff; color:#1a237e;}
+    .center{text-align:center;}
+    .badge{display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px;}
+    .verde{background:#e8f5e9; color:#2e7d32;}
+    .azul{background:#e3f2fd; color:#1565c0;}
+    .naranja{background:#fff3e0; color:#ef6c00;}
+    select{min-width:180px; padding:6px 8px; border:1px solid #ccc; border-radius:6px;}
+    @media (max-width:680px){
+      th:nth-child(1), td:nth-child(1){display:none;} /* oculta # en móviles */
+    }
+  </style>
+
+</head>
+<body>
+  
+  <div class="wrap">
+   
+    <h1>Defectos agrupados</h1>
+
+    <div id="tabla"></div>
+  </div>
+  
+    
+  
+<div class="actions">
+  <a class="btn btn--success" href="index.html">Registrar nuevo defecto</a>
+  <button id="btnDescargar" class="btn btn--primary">Descargar TXT</button>
+</div>
+
+  
+  <script>
+    function hoyISO() {
+      const d = new Date();
+      const pad = n => String(n).padStart(2,'0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    let fecha = localStorage.getItem('fechaHoy');
+    if (!fecha) {
+      fecha = hoyISO().split(' ')[0];
+      localStorage.setItem('fechaHoy', fecha);
+    }else{
+      const hoy = hoyISO().split(' ')[0];
+      if (fecha !== hoy) {
+        fecha = hoy;
+        localStorage.setItem('fechaHoy', fecha);
+        localStorage.setItem('defectoData', '[]'); // resetea datos al cambiar de día
+      }
+    }
+
+    const registros = JSON.parse(localStorage.getItem('defectoData')) || [];
+    console.log('Registros cargados:', registros);
+
+    const colorCls = c => {
+      const x = (c||'').toLowerCase();
+      if (x.includes('verde')) return 'verde';
+      if (x.includes('azul')) return 'azul';
+      if (x.includes('naranja')) return 'naranja';
+      return '';
+    };
+
+    function renderTabla(data){
+      const el = document.getElementById('tabla');
+      if (!data || !data.length){
+        el.innerHTML = '<p>No hay datos.</p>';
+        return;
+      }
+
+      const rows = data.map((r, i) => {
+        const horas = Array.isArray(r.hora) ? r.hora : [];
+        const options = horas.length
+          ? horas.map(h => `<option value="${h}">${h}</option>`).join('')
+          : `<option value="">Sin horas</option>`;
+
+        return `
+          <tr>
+            <td class="center">${i+1}</td>
+            <td>${r.defecto ?? '-'}</td>
+            <td>${r.metodo ?? '-'}</td>
+            <td class="center">${(r.lado ?? '-').toString().toUpperCase()}</td>
+            <td><span class="badge ${colorCls(r.color)}">${r.color ?? '-'}</span></td>
+            <td>
+              <select title="Horas">
+                ${options}
+              </select>
+            </td>
+            <td class="center"><strong>${r.contador ?? horas.length}</strong></td>
+          </tr>
+        `;
+      }).join('');
+
+      el.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th class="center">#</th>
+              <th>Defecto</th>
+              <th>Método</th>
+              <th class="center">Lado</th>
+              <th>Color</th>
+              <th>Horas</th>
+              <th class="center">Repeticiones</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    renderTabla(registros);
+  </script>
+  <script src="descargar-defectos.js"></script>
+  <script>
+  // Si ya tienes const registros = [...], lo toma automático.
+  // Si no, leerá localStorage["defectoData"].
+  attachDownloadDefectos('#btnDescargar'); 
+  // O explícitamente:
+  // attachDownloadDefectos('#btnDescargar', registros);
+</script>
+</body>
+</html>

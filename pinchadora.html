@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Defecto</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Agregar Defecto</h1>
+    <form id="defectoForm">
+      <!-- Select Defecto -->
+      <label for="defecto">Tipo de defecto</label>
+      <select id="defecto" name="defecto" required>
+        <option value="">Seleccione...</option>
+        <option value="exceso">Fuga</option>
+        <option value="falta">Mal pinchado</option>
+        <option value="contaminada">Falla pinchadora</option>
+        <option value="otro">Otro</option>
+      </select>
+
+      <!-- Campo Otro -->
+      <label for="otroDefecto" id="otroLabel">Especifique otro defecto</label>
+      <input type="text" id="otroDefecto" name="otroDefecto">
+
+
+      <!-- Select Lado -->
+      <label for="lado">Lado</label>
+      <select id="lado" name="lado" required>
+        <option value="">Seleccione...</option>
+        <option value="a">Lado A</option>
+        <option value="b">Lado B</option>
+      </select>
+     
+
+      <!-- Botón Guardar -->
+      <button type="submit">Guardar</button>
+    </form>
+    <a href="index.html">Regresar</a>
+  </div>
+
+  <script src="pinchadora.js">
+    
+  </script>
+</body>
+</html>
